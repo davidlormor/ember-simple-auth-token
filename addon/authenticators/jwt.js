@@ -162,8 +162,9 @@ export default TokenAuthenticator.extend({
     return new Ember.RSVP.Promise((resolve, reject) => {
       const data = this.getAuthenticateData(credentials);
 
-      this.makeRequest(this.serverTokenEndpoint, data, headers).then(response => {
+      this.makeRequest(this.serverTokenEndpoint, data, headers).then(responseString => {
         Ember.run(() => {
+          let response = { token: responseString };
           const token = Ember.get(response, this.tokenPropertyName);
           const tokenData = this.getTokenData(token);
           const expiresAt = Ember.get(tokenData, this.tokenExpireName);
